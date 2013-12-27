@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Service
+Actions=downloados;
+Encoding=UTF-8
+ServiceTypes=KonqPopupMenu/Plugin,video/*
+
+[Desktop Action downloados]
+Exec=download_opensubtitle.py "%F"
+Name=Download subtitle from opensubtitles.org
+Name[es]=Descargar subtitulo de opensubtitles.org
+Icon=text
+
