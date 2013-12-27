@@ -13,6 +13,10 @@ from struct import *
 from sys import argv
 from xmlrpclib import ServerProxy, Error
 
+config = {
+    'url': 'http://api.opensubtitles.org/xml-rpc',
+}
+
 def hashFile(name): 
       try: 
                  
@@ -53,7 +57,7 @@ def hashFile(name):
 
 # ================== Main program ========================
 
-server = ServerProxy("http://www.opensubtitles.org/xml-rpc")
+server = ServerProxy(config['url'], verbose=True)
 peli = argv[1]
 
 try:
@@ -61,6 +65,10 @@ try:
     size = os.path.getsize(peli)
     session =  server.LogIn("","","en","python")
     
+    if session["status"] != "200 OK":
+        os.system('kdialog --error "Login failed:\n' + session["status"] + '"')
+        exit(1)
+        
     token = session["token"]
     
     searchlist = []
