@@ -15,6 +15,8 @@
 #   http://trac.opensubtitles.org/projects/opensubtitles/wiki/HashSourceCodes
 
 import os, struct
+from subprocess import check_output
+from time import sleep
 from struct import *
 from sys import argv
 from xmlrpclib import ServerProxy, Error
@@ -72,6 +74,11 @@ def showDialogSelect(items):
     command += ' ' + items
     return os.popen(command).readline()
 
+def showProgressBar():
+    return check_output(['kdialog',
+                        '--title', 'OpenSubtitles.org downloader',
+                        '--progressbar', 'Downloading subtitle...', '3'])
+
 # ================== Main program ========================
 
 server = ServerProxy(config['url'], verbose=config['debug'])
@@ -104,11 +111,22 @@ try:
             mindex = mindex + 1
 
         resp = showDialogSelect(kdialog_items)
+        #return value have a trailing newline so it must be stripped
+        dbusRef = showProgressBar().strip()
         subFileName = os.path.basename(peli)[:-3] + moviesList['data'][int(resp)]['SubFileName'][-3:]
         subDirName = os.path.dirname(peli)
         subURL = moviesList['data'][int(resp)]['SubDownloadLink']
+        #Update progressbar to 30%
+        os.system('qdbus '+ str(dbusRef).strip() + ' Set "" value 1')
         response = os.system('wget -O - ' + subURL + ' | gunzip  > "' + subDirName + '/' + subFileName + '"' )
         print 'wget -O - ' + subURL + ' | gunzip  > "' + subDirName + '/' + subFileName + '"'
+
+        #Display 100% for a second, then close
+        os.system('qdbus '+ str(dbusRef) + ' Set "" value 3')
+        os.system('qdbus '+ str(dbusRef) + ' setLabelText "Subtitle downloaded and unpacked"')
+        sleep(1)
+        os.system('qdbus '+ str(dbusRef) + ' close')
+
         if response != 0:
             showDialogError('An error ocurred downloading or writing the subtitle')
 
