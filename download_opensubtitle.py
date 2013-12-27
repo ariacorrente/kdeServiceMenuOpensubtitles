@@ -61,6 +61,9 @@ def hashFile(name):
     except(IOError): 
         return "IOError"
 
+def showDialogError(message):
+    os.system('kdialog --title "OpenSubtitles.org downloader" --error ' + message)
+
 # ================== Main program ========================
 
 server = ServerProxy(config['url'], verbose=config['debug'])
@@ -72,7 +75,7 @@ try:
     session =  server.LogIn("","", config['subLanguage'], config['userAgent'])
     
     if session["status"] != "200 OK":
-        os.system('kdialog --error "Login failed:\n' + session["status"] + '"')
+        showDialogError('"Login failed:\n' + session["status"] + '"')
         exit(1)
         
     token = session["token"]
@@ -99,14 +102,14 @@ try:
 		response = os.system('wget -O - ' + subURL + ' | gunzip  > "' + subDirName + '/' + subFileName + '"' )
 		print 'wget -O - ' + subURL + ' | gunzip  > "' + subDirName + '/' + subFileName + '"' 
 		if response != 0:
-			os.system('kdialog --error "An error ocurred downloading or writing the subtitle"')
+			showDialogError('An error ocurred downloading or writing the subtitle')
 		
     else:
-		os.system('kdialog --error "No subtitles found"')
+		showDialogError('No subtitles found')
     
     server.Logout(session["token"])
 except Error, v:
-    os.system('kdialog --error "An error ocurred"')
+    showDialogError('An error ocurred')
 
 
 
