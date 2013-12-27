@@ -26,39 +26,39 @@ config = {
     'subLanguage': 'eng',
 }
 
-def hashFile(name): 
-    try: 
-            
-        longlongformat = 'q'  # long long 
-        bytesize = struct.calcsize(longlongformat) 
-            
-        f = open(name, "rb") 
-            
-        filesize = os.path.getsize(name) 
-        hash = filesize 
-            
-        if filesize < 65536 * 2: 
-            return "SizeError" 
-            
-        for x in range(65536/bytesize): 
-            buffer = f.read(bytesize) 
-            (l_value,)= struct.unpack(longlongformat, buffer)  
-            hash += l_value 
-            hash = hash & 0xFFFFFFFFFFFFFFFF #to remain as 64bit number  
-                    
+def hashFile(name):
+    try:
 
-        f.seek(max(0,filesize-65536),0) 
-        for x in range(65536/bytesize): 
-            buffer = f.read(bytesize) 
-            (l_value,)= struct.unpack(longlongformat, buffer)  
-            hash += l_value 
-            hash = hash & 0xFFFFFFFFFFFFFFFF 
-            
-        f.close() 
-        returnedhash =  "%016x" % hash 
-        return returnedhash 
+        longlongformat = 'q'  # long long
+        bytesize = struct.calcsize(longlongformat)
 
-    except(IOError): 
+        f = open(name, "rb")
+
+        filesize = os.path.getsize(name)
+        hash = filesize
+
+        if filesize < 65536 * 2:
+            return "SizeError"
+
+        for x in range(65536/bytesize):
+            buffer = f.read(bytesize)
+            (l_value,)= struct.unpack(longlongformat, buffer)
+            hash += l_value
+            hash = hash & 0xFFFFFFFFFFFFFFFF #to remain as 64bit number
+
+
+        f.seek(max(0,filesize-65536),0)
+        for x in range(65536/bytesize):
+            buffer = f.read(bytesize)
+            (l_value,)= struct.unpack(longlongformat, buffer)
+            hash += l_value
+            hash = hash & 0xFFFFFFFFFFFFFFFF
+
+        f.close()
+        returnedhash =  "%016x" % hash
+        return returnedhash
+
+    except(IOError):
         return "IOError"
 
 def showDialogError(message):
@@ -73,40 +73,40 @@ try:
     myhash = hashFile(peli)
     size = os.path.getsize(peli)
     session =  server.LogIn("","", config['subLanguage'], config['userAgent'])
-    
+
     if session["status"] != "200 OK":
         showDialogError('"Login failed:\n' + session["status"] + '"')
         exit(1)
-        
+
     token = session["token"]
-    
+
     searchlist = []
     searchlist.append({
         'sublanguageid': config['subLanguage'],
         'moviehash': myhash,
         'moviebytesize': str(size)
         })
-    
+
     moviesList = server.SearchSubtitles(token, searchlist)
     if moviesList['data']:
-		mindex = 0
-		kdialog_items = ''
-		for item in moviesList['data']:
-			kdialog_items = kdialog_items + '"' + str(mindex) + '" "' + item['SubFileName'] + '" '
-			mindex = mindex + 1
-	
-		resp = os.popen('kdialog --geometry 400x200 --menu "Select subtitle" ' + kdialog_items).readline()
-		subFileName = os.path.basename(peli)[:-3] + moviesList['data'][int(resp)]['SubFileName'][-3:]
-		subDirName = os.path.dirname(peli)
-		subURL = moviesList['data'][int(resp)]['SubDownloadLink']
-		response = os.system('wget -O - ' + subURL + ' | gunzip  > "' + subDirName + '/' + subFileName + '"' )
-		print 'wget -O - ' + subURL + ' | gunzip  > "' + subDirName + '/' + subFileName + '"' 
-		if response != 0:
-			showDialogError('An error ocurred downloading or writing the subtitle')
-		
+        mindex = 0
+        kdialog_items = ''
+        for item in moviesList['data']:
+            kdialog_items = kdialog_items + '"' + str(mindex) + '" "' + item['SubFileName'] + '" '
+            mindex = mindex + 1
+
+        resp = os.popen('kdialog --geometry 400x200 --menu "Select subtitle" ' + kdialog_items).readline()
+        subFileName = os.path.basename(peli)[:-3] + moviesList['data'][int(resp)]['SubFileName'][-3:]
+        subDirName = os.path.dirname(peli)
+        subURL = moviesList['data'][int(resp)]['SubDownloadLink']
+        response = os.system('wget -O - ' + subURL + ' | gunzip  > "' + subDirName + '/' + subFileName + '"' )
+        print 'wget -O - ' + subURL + ' | gunzip  > "' + subDirName + '/' + subFileName + '"'
+        if response != 0:
+            showDialogError('An error ocurred downloading or writing the subtitle')
+
     else:
-		showDialogError('No subtitles found')
-    
+        showDialogError('No subtitles found')
+
     server.Logout(session["token"])
 except Error, v:
     showDialogError('An error ocurred')
