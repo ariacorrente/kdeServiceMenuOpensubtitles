@@ -1,15 +1,34 @@
 #!/usr/bin/python
 
-# Download subtitles from opensubtitles.org
-# Default language is english, to change the language change sublanguageid parameter
-# in the searchlist.append function
+# download_opensubtitle: KDE service menu for opensubtitles.org
+# Copyright (C) 2007 Carlos Acedo
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+# Download subtitles from opensubtitles.org
+# Default language is english, to change the language edit "subLanguage" in the
+# "config" variable just after the includes.
+
+# Original developer:
 # Carlos Acedo (carlos@linux-labs.net)
 # Inspired by subdownloader
 # License GPL v2
-
+#
+# Maintainer from 2013-12-27:
 # Nicola Felice (dev@dominiofelice.com)
-# 2013-12-27 Updating the script to let it work with changes the API
+# Updated the script to let it work with the changed API.
 #
 # - The hash function have been copied from:
 #   http://trac.opensubtitles.org/projects/opensubtitles/wiki/HashSourceCodes
