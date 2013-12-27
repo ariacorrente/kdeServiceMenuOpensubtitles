@@ -22,6 +22,8 @@ from xmlrpclib import ServerProxy, Error
 config = {
     'url': 'http://api.opensubtitles.org/xml-rpc',
     'userAgent': 'OS Test User Agent', #only for test purposes
+    'debug': True,
+    'subLanguage': 'eng',
 }
 
 def hashFile(name): 
@@ -61,13 +63,13 @@ def hashFile(name):
 
 # ================== Main program ========================
 
-server = ServerProxy(config['url'], verbose=True)
+server = ServerProxy(config['url'], verbose=config['debug'])
 peli = argv[1]
 
 try:
     myhash = hashFile(peli)
     size = os.path.getsize(peli)
-    session =  server.LogIn("","","en", config['userAgent'])
+    session =  server.LogIn("","", config['subLanguage'], config['userAgent'])
     
     if session["status"] != "200 OK":
         os.system('kdialog --error "Login failed:\n' + session["status"] + '"')
@@ -76,7 +78,11 @@ try:
     token = session["token"]
     
     searchlist = []
-    searchlist.append({'sublanguageid':'eng','moviehash':myhash,'moviebytesize':str(size)})
+    searchlist.append({
+        'sublanguageid': config['subLanguage'],
+        'moviehash': myhash,
+        'moviebytesize': str(size)
+        })
     
     moviesList = server.SearchSubtitles(token, searchlist)
     if moviesList['data']:
