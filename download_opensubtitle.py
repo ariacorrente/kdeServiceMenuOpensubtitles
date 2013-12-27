@@ -17,7 +17,6 @@
 import os, struct
 from subprocess import check_output
 from time import sleep
-from struct import *
 from sys import argv
 from xmlrpclib import ServerProxy, Error
 
