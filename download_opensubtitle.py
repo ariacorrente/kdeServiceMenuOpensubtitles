@@ -64,6 +64,14 @@ def hashFile(name):
 def showDialogError(message):
     os.system('kdialog --title "OpenSubtitles.org downloader" --error ' + message)
 
+def showDialogSelect(items):
+    command = 'kdialog'
+    command += ' --geometry 400x200'
+    command += ' --title "OpenSubtitles.org downloader"'
+    command += ' --menu "Select subtitle"'
+    command += ' ' + items
+    return os.popen(command).readline()
+
 # ================== Main program ========================
 
 server = ServerProxy(config['url'], verbose=config['debug'])
@@ -95,7 +103,7 @@ try:
             kdialog_items = kdialog_items + '"' + str(mindex) + '" "' + item['SubFileName'] + '" '
             mindex = mindex + 1
 
-        resp = os.popen('kdialog --geometry 400x200 --menu "Select subtitle" ' + kdialog_items).readline()
+        resp = showDialogSelect(kdialog_items)
         subFileName = os.path.basename(peli)[:-3] + moviesList['data'][int(resp)]['SubFileName'][-3:]
         subDirName = os.path.dirname(peli)
         subURL = moviesList['data'][int(resp)]['SubDownloadLink']
