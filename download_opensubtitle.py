@@ -8,7 +8,13 @@
 # Inspired by subdownloader
 # License GPL v2
 
-import os
+# Nicola Felice (dev@dominiofelice.com)
+# 2013-12-27 Updating the script to let it work with changes the API
+#
+# - The hash function have been copied from:
+#   http://trac.opensubtitles.org/projects/opensubtitles/wiki/HashSourceCodes
+
+import os, struct
 from struct import *
 from sys import argv
 from xmlrpclib import ServerProxy, Error
@@ -19,42 +25,39 @@ config = {
 }
 
 def hashFile(name): 
-      try: 
-                 
-                longlongformat = 'LL'  # signed long, unsigned long 
-                bytesize = calcsize(longlongformat) 
+    try: 
+            
+        longlongformat = 'q'  # long long 
+        bytesize = struct.calcsize(longlongformat) 
+            
+        f = open(name, "rb") 
+            
+        filesize = os.path.getsize(name) 
+        hash = filesize 
+            
+        if filesize < 65536 * 2: 
+            return "SizeError" 
+            
+        for x in range(65536/bytesize): 
+            buffer = f.read(bytesize) 
+            (l_value,)= struct.unpack(longlongformat, buffer)  
+            hash += l_value 
+            hash = hash & 0xFFFFFFFFFFFFFFFF #to remain as 64bit number  
                     
-                f = file(name, "rb") 
-                    
-                filesize = os.path.getsize(name) 
-                hash = filesize 
-                    
-                if filesize < 65536 * 2: 
-                       return "SizeError" 
-                 
-                for x in range(65536/bytesize): 
-                        buffer = f.read(bytesize) 
-                        (l2, l1)= unpack(longlongformat, buffer) 
-                        l_value = (long(l1) << 32) | long(l2) 
-                        hash += l_value 
-                        hash = hash & 0xFFFFFFFFFFFFFFFF #to remain as 64bit number  
-                         
-    
-                f.seek(max(0,filesize-65536),0) 
-                for x in range(65536/bytesize): 
-                        buffer = f.read(bytesize) 
-                        (l2, l1) = unpack(longlongformat, buffer) 
-                        l_value = (long(l1) << 32) | long(l2) 
-                        hash += l_value 
-                        hash = hash & 0xFFFFFFFFFFFFFFFF 
-                 
-                f.close() 
-                returnedhash =  "%016x" % hash 
-                return returnedhash 
-    
-      except(IOError): 
-                os.system('kdialog --error "Input/Output error while reading file hash"')
-                return "IOError"
+
+        f.seek(max(0,filesize-65536),0) 
+        for x in range(65536/bytesize): 
+            buffer = f.read(bytesize) 
+            (l_value,)= struct.unpack(longlongformat, buffer)  
+            hash += l_value 
+            hash = hash & 0xFFFFFFFFFFFFFFFF 
+            
+        f.close() 
+        returnedhash =  "%016x" % hash 
+        return returnedhash 
+
+    except(IOError): 
+        return "IOError"
 
 # ================== Main program ========================
 
