@@ -15,6 +15,7 @@ from xmlrpclib import ServerProxy, Error
 
 config = {
     'url': 'http://api.opensubtitles.org/xml-rpc',
+    'userAgent': 'OS Test User Agent', #only for test purposes
 }
 
 def hashFile(name): 
@@ -63,7 +64,7 @@ peli = argv[1]
 try:
     myhash = hashFile(peli)
     size = os.path.getsize(peli)
-    session =  server.LogIn("","","en","python")
+    session =  server.LogIn("","","en", config['userAgent'])
     
     if session["status"] != "200 OK":
         os.system('kdialog --error "Login failed:\n' + session["status"] + '"')
