@@ -130,6 +130,11 @@ try:
             mindex = mindex + 1
 
         resp = showDialogSelect(kdialog_items)
+        # check if the user pressed "cancel".
+        # If the user has no selected a subtitle and pressed "ok" the first
+        # subtitle will be chosen
+        if resp == '':
+            exit(0)
         #return value have a trailing newline so it must be stripped
         dbusRef = showProgressBar().strip()
         subFileName = os.path.basename(peli)[:-3] + moviesList['data'][int(resp)]['SubFileName'][-3:]
