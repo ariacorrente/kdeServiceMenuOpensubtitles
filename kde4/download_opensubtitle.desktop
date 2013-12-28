@@ -9,5 +9,5 @@ Exec=download_opensubtitle.py "%F"
 Name=Download subtitle from opensubtitles.org
 Name[es]=Descargar subtitulo de opensubtitles.org
 Name[it]=Scarica sottotitoli da opensubtitles.org
-Icon=text
+Icon=applications-multimedia
 
