@@ -38,6 +38,7 @@ from subprocess import check_output
 from time import sleep
 from sys import argv
 from xmlrpclib import ServerProxy, Error
+import socket
 
 config = {
     'url': 'http://api.opensubtitles.org/xml-rpc',
@@ -82,7 +83,7 @@ def hashFile(name):
         return "IOError"
 
 def showDialogError(message):
-    os.system('kdialog --title "OpenSubtitles.org downloader" --error ' + message)
+    os.system('kdialog --title "OpenSubtitles.org downloader" --error "' + message + '"')
 
 def showDialogSelect(items):
     command = 'kdialog'
@@ -154,6 +155,5 @@ try:
     server.Logout(session["token"])
 except Error, v:
     showDialogError('An error ocurred')
-
-
-
+except socket.error, err:
+    showDialogError('Unable to contact the OpenSubtitles.org server:\n\n' + err[1])
