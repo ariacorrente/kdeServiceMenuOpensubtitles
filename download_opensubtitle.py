@@ -37,7 +37,7 @@ import os, struct
 from subprocess import check_output
 from time import sleep
 from sys import argv
-from xmlrpclib import ServerProxy, Error
+import xmlrpclib
 import socket
 
 config = {
@@ -100,7 +100,7 @@ def showProgressBar():
 
 # ================== Main program ========================
 
-server = ServerProxy(config['url'], verbose=config['debug'])
+server = xmlrpclib.ServerProxy(config['url'], verbose=config['debug'])
 peli = argv[1]
 
 try:
@@ -158,7 +158,11 @@ try:
         showDialogError('No subtitles found')
 
     server.Logout(session["token"])
-except Error, v:
-    showDialogError('An error ocurred')
+except xmlrpclib.Error, err:
+    #for testing this error, change the url with a non xmlrpc server
+    message = 'An error ocurred contacting the OpenSubtitle.org server:\n\n'
+    message += 'Error ' + str(err.errcode) +  ': ' + err.errmsg
+    showDialogError(message);
 except socket.error, err:
+    #for testing this error, disable the internet connection
     showDialogError('Unable to contact the OpenSubtitles.org server:\n\n' + err[1])
