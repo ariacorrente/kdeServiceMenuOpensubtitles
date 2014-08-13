@@ -28,7 +28,8 @@
 #
 # Maintainer from 2013-12-27:
 # Nicola Felice (dev@dominiofelice.com)
-# Updated the script to let it work with the changed API.
+# Original code was found in
+# http://kde-look.org/content/show.php/download_opensubtitle?content=65444
 #
 # - The hash function have been copied from:
 #   http://trac.opensubtitles.org/projects/opensubtitles/wiki/HashSourceCodes
