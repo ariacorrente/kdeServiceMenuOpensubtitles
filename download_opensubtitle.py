@@ -115,6 +115,11 @@ def showProgressBar():
                         '--title', 'OpenSubtitles.org downloader',
                         '--progressbar', 'Downloading subtitle...', '3'])
 
+def showDialogOverwrite(fileName):
+    return call(['kdialog',
+                 '--title', 'OpenSubtitles.org downloader',
+                 '--warningyesno', 'A file named "' + fileName + '" already exists.\nDo you want to replace it with the new downloaded subtitle?'])
+
 # ================== Main program ========================
 
 checkRequirements()
@@ -153,11 +158,21 @@ try:
         # subtitle will be chosen
         if resp == '':
             exit(0)
-        #return value have a trailing newline so it must be stripped
-        dbusRef = showProgressBar().strip()
+
         subFileName = os.path.basename(peli)[:-3] + moviesList['data'][int(resp)]['SubFileName'][-3:]
         subDirName = os.path.dirname(peli)
         subURL = moviesList['data'][int(resp)]['SubDownloadLink']
+
+        # Ask before overwriting an existing subtitle
+        if os.path.isfile(subDirName + '/' + subFileName):
+            resp = showDialogOverwrite(subFileName)
+            print resp
+            if resp == 1:
+                exit(0)
+
+        #return value have a trailing newline so it must be stripped
+        dbusRef = showProgressBar().strip()
+
         #Update progressbar to 30%
         os.system('qdbus '+ str(dbusRef).strip() + ' Set "" value 1')
         response = os.system('wget -O - ' + subURL + ' | gunzip  > "' + subDirName + '/' + subFileName + '"' )
