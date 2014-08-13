@@ -2,8 +2,9 @@
 
 fileDesktop=download_opensubtitle.desktop
 fileScript=download_opensubtitle.py
-folderDesktop=~/.kde/share/kde4/services/ServiceMenu
-folderScript=/usr/local/bin
+folderDesktop=`kde4-config --path services | cut -d : -f 1`
+folderScript=`echo $PATH | cut -d : -f 1`
+folderScript=`kde4-config --install exe | cut -d : -f 1`
 
 echo
 echo download_opensubtitle service menu uninstaller
