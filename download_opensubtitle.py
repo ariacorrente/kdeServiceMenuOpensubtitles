@@ -34,7 +34,7 @@
 #   http://trac.opensubtitles.org/projects/opensubtitles/wiki/HashSourceCodes
 
 import os, struct
-from subprocess import check_output
+from subprocess import check_output, call
 from time import sleep
 from sys import argv
 import xmlrpclib
@@ -43,9 +43,26 @@ import socket
 config = {
     'url': 'http://api.opensubtitles.org/xml-rpc',
     'userAgent': 'OS Test User Agent', #only for test purposes
-    'debug': True,
+    'debug': False,
     'subLanguage': 'eng',
 }
+
+def checkRequirements():
+    retCode = call(["kdialog", "--version"])
+    if retCode != 0:
+        print "'kdialog' is required but failed to execute, check if it's installed"
+        exit(1)
+
+    retCode = call(["wget", "--version"])
+    if retCode != 0:
+        showDialogError("'wget' is required but failed to execute, check if it's installed")
+        exit(1)
+
+    # no --version arg available for qdbus, no args will list available services
+    retCode = call(["qdbus"])
+    if retCode != 0:
+        showDialogError("'qdbus' is required but failed to execute, check if it's installed")
+        exit(1);
 
 def hashFile(name):
     try:
@@ -100,6 +117,7 @@ def showProgressBar():
 
 # ================== Main program ========================
 
+checkRequirements()
 server = xmlrpclib.ServerProxy(config['url'], verbose=config['debug'])
 peli = argv[1]
 

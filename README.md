@@ -33,6 +33,7 @@ script into a system folder included in PATH.
 - python
 - wget
 - kdialog
+- qdbus
 
 ## Changelog ##
 
