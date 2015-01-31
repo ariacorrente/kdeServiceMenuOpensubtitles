@@ -43,7 +43,7 @@ import socket
 
 config = {
     'url': 'http://api.opensubtitles.org/xml-rpc',
-    'userAgent': 'OS Test User Agent', #only for test purposes
+    'userAgent': 'OSTestUserAgent', #only for test purposes
     'debug': False,
     'subLanguage': 'eng',
 }
