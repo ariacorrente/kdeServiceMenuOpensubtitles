@@ -2,19 +2,20 @@
 
 ## Description ##
 
-This is a KDE service menu to download subtitles from opensubtitles.org.
+This is a KDE service menu to download subtitles from [opensubtitles.org][0].
 
-Just right click on a video file -> actions -> download subtitle, it will show
-you a list of subtitles. Select one and it will be downloaded and saved with
-the same name as the video (with a subtitle extension of course), so your
+Just right click on a video file -> actions -> download subtitle from OpenSubtitles.org,
+it will show you a list of subtitles. Select one and it will be downloaded and saved 
+with the same name as the video (with a subtitle extension of course), so your
 player will detect automatically the subtitle.
 
 The search is done extracting a hash from the file, this way you will get the
-correct subtitle for sure (no more async problems).
+correct subtitle for sure.
 
 The default language is english, you can change it in the python file.
 
-Thank you to opensubtitles.org for that great service.
+Thank you to [opensubtitles.org][0] for that great service, it's also possible to help them 
+[uploading subtitles][1].
 
 ## Install ##
 
@@ -44,3 +45,6 @@ If you have KDE installed all the required tools are usually already installed:
 - 2013-12-27: Updated to work with the changed opensubtitles.org API
 - Added suport for kde4, you will find the correct desktop file for your kde
     inside the package
+
+[0]: http://www.opensubtitles.org/  "OpensSubtitles.org website"
+[1]: http://www.opensubtitles.org/upload  "Upload subtitles to OpensSubtitles.org"
