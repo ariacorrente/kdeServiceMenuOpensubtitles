@@ -43,8 +43,8 @@ import socket
 
 config = {
     'url': 'http://api.opensubtitles.org/xml-rpc',
-    'userAgent': 'OSTestUserAgent', #only for test purposes
-    'debug': False,
+    'userAgent': 'kdeServiceMenuOpensubtitles',
+    'debug': True,
     'subLanguage': 'eng',
 }
 
