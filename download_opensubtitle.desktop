@@ -6,8 +6,8 @@ ServiceTypes=KonqPopupMenu/Plugin,video/*
 
 [Desktop Action downloados]
 Exec=download_opensubtitle.py "%F"
-Name=Download subtitle from opensubtitles.org
-Name[es]=Descargar subtitulo de opensubtitles.org
-Name[it]=Scarica sottotitoli da opensubtitles.org
+Name=Download subtitle from OpenSubtitles.org
+Name[es]=Descargar subtitulo de OpenSubtitles.org
+Name[it]=Scarica sottotitoli da OpenSubtitles.org
 Icon=applications-multimedia
 

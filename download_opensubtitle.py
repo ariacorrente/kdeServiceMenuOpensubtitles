@@ -189,12 +189,12 @@ try:
             showDialogError('An error ocurred downloading or writing the subtitle')
 
     else:
-        showDialogError('No subtitles found')
+        showDialogError('No subtitles found\n\nYou can try searching manually on opensubtitles.org')
 
     server.Logout(session["token"])
 except xmlrpclib.Error, err:
     #for testing this error, change the url with a non xmlrpc server
-    message = 'An error ocurred contacting the OpenSubtitle.org server:\n\n'
+    message = 'An error ocurred contacting the OpenSubtitles.org server:\n\n'
     message += 'Error ' + str(err.errcode) +  ': ' + err.errmsg
     showDialogError(message);
 except socket.error, err:
