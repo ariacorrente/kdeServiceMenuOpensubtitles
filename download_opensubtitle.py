@@ -48,20 +48,38 @@ config = {
     'subLanguage': 'eng',
 }
 
+# if kdialog is not installed i must notify the user about the problem. I hope
+# at least "konsole" is installed so i use "dialog" to display a message box
+# for shell scripts.
+# In Kubuntu 15.04 kdialog it's not installed by default but it's avaiable 
+# inside the package "kde-baseapps-bin".
+def fallbackKdialog():
+    # use stdout anyway
+    print "'kdialog' is required but failed to execute, check if it's installed"
+    try:
+        retCode = call(["konsole", "--version"])
+        retCode = call(["dialog", "--version"])
+        retCode = call('konsole -e dialog --msgbox "\'kdialog\' is required but failed to execute, check if it\'s installed" 8 76', shell=True);
+    except(OSError):
+        print "Even 'konsole' or 'dialog' are not available, message delivered only through stdout"
+        
 def checkRequirements():
-    retCode = call(["kdialog", "--version"])
-    if retCode != 0:
-        print "'kdialog' is required but failed to execute, check if it's installed"
-        exit(1)
+    try:
+        call(["kdialog", "--version"])
+    except(OSError):
+        fallbackKdialog()
+        exit(1)    
 
-    retCode = call(["wget", "--version"])
-    if retCode != 0:
+    try:
+        call(["wget", "--version"])
+    except(OSError):
         showDialogError("'wget' is required but failed to execute, check if it's installed")
         exit(1)
 
     # no --version arg available for qdbus, no args will list available services
-    retCode = call(["qdbus"])
-    if retCode != 0:
+    try:
+        call(["qdbus"])
+    except(OSError):
         showDialogError("'qdbus' is required but failed to execute, check if it's installed")
         exit(1);
 
