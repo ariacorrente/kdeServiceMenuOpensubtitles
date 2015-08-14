@@ -1,0 +1,6 @@
+#kdevelop stuff
+*.kdev4
+.kdev4
+
+#local stuff for release in http://kde-apps.org
+release
