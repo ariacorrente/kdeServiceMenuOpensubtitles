@@ -69,6 +69,6 @@ This software is published on the following services:
 
 [0]: http://www.opensubtitles.org/  "OpensSubtitles.org website"
 [1]: http://www.opensubtitles.org/upload  "Upload subtitles to OpenSubtitles.org"
-[2]: http://kde-look.org/content/show.php/download_opensubtitle?content=65444 "download_opensubtitle original code"
+[2]: https://store.kde.org/p/998446 "download_opensubtitle original code"
 [3]: https://github.com/ariacorrente/kdeServiceMenuOpensubtitles "kdeServiceMenuOpensubtitles GitHub repository" 
 [4]: https://store.kde.org/p/998190 "kdeServiceMenuOpensubtitles on KDE store"
