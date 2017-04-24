@@ -44,6 +44,13 @@ If you have KDE installed all the required tools are usually already installed:
     `kde-baseapps-bin` package.
 - qdbus
 
+## Contacts ##
+
+This software is published on the following services:
+
+- [source of kdeServiceMenuOpenSubtitles][3] on GitHub 
+- [releases of kdeServiceMenuOpenSubtitles][4] on KDE Store
+
 ## Changelog ##
 
 - 2017-04-24: specified python2 as interpreter, fixed --geometry parameter not
@@ -63,3 +70,5 @@ If you have KDE installed all the required tools are usually already installed:
 [0]: http://www.opensubtitles.org/  "OpensSubtitles.org website"
 [1]: http://www.opensubtitles.org/upload  "Upload subtitles to OpenSubtitles.org"
 [2]: http://kde-look.org/content/show.php/download_opensubtitle?content=65444 "download_opensubtitle original code"
+[3]: https://github.com/ariacorrente/kdeServiceMenuOpensubtitles "kdeServiceMenuOpensubtitles GitHub repository" 
+[4]: https://store.kde.org/p/998190 "kdeServiceMenuOpensubtitles on KDE store"
