@@ -132,10 +132,19 @@ def showDialogSelect(items):
     command += ' ' + items
     return os.popen(command).readline()
 
-def showProgressBar():
-    return check_output(['kdialog',
-                        '--title', 'OpenSubtitles.org downloader',
-                        '--progressbar', 'Downloading subtitle...', '3'])
+def showConnectProgressBar():
+    dbusRef =  check_output(['kdialog',
+        '--title', 'OpenSubtitles.org downloader',
+        '--progressbar', 'Contacting OpenSubtitles.org service...', '1'])
+
+    #return value have a trailing newline so it must be stripped
+    return dbusRef.strip()
+
+def showDownloadProgressBar():
+    dbusRef =  check_output(['kdialog',
+        '--title', 'OpenSubtitles.org downloader',
+        '--progressbar', 'Downloading subtitle...', '3'])
+    return dbusRef.strip()
 
 def showDialogOverwrite(fileName):
     return call(['kdialog',
@@ -151,8 +160,12 @@ peli = argv[1]
 try:
     myhash = hashFile(peli)
     size = os.path.getsize(peli)
+
+    dbusRef = showConnectProgressBar
+
     session =  server.LogIn("","", config['subLanguage'], config['userAgent'])
 
+    os.system('qdbus '+ str(dbusRef) + ' close')
     if session["status"] != "200 OK":
         showDialogError('"Login failed:\n' + session["status"] + '"')
         exit(1)
@@ -191,12 +204,10 @@ try:
             print resp
             if resp == 1:
                 exit(0)
-
-        #return value have a trailing newline so it must be stripped
-        dbusRef = showProgressBar().strip()
+        dbusRef = showDownloadProgressBar()
 
         #Update progressbar to 30%
-        os.system('qdbus '+ str(dbusRef).strip() + ' Set "" value 1')
+        os.system('qdbus '+ str(dbusRef) + ' Set "" value 1')
         response = os.system('wget -O - ' + subURL + ' | gunzip  > "' + subDirName + '/' + subFileName + '"' )
         print 'wget -O - ' + subURL + ' | gunzip  > "' + subDirName + '/' + subFileName + '"'
 
