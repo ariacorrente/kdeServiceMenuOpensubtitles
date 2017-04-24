@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 
 # download_opensubtitle: KDE service menu for opensubtitles.org
 # Copyright (C) 2007 Carlos Acedo
