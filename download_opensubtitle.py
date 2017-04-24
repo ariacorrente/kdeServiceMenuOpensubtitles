@@ -123,9 +123,12 @@ def showDialogError(message):
 
 def showDialogSelect(items):
     command = 'kdialog'
-    command += ' --geometry 400x200'
     command += ' --title "OpenSubtitles.org downloader"'
-    command += ' --menu "Select subtitle"'
+    # The menu string is verbose because this way the dialog is streched wide to
+    # display the entire line. This is a workaround to force the width of the
+    # dialog and allow to display more text in the list below instead of using 
+    # scrollbars.
+    command += ' --menu "Select the subtitle you want to download from the list below:\n"'
     command += ' ' + items
     return os.popen(command).readline()
 
