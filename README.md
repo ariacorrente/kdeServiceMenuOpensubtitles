@@ -29,16 +29,9 @@ KDE3: Copy download_subtitle.desktop to ~/.kde/share/apps/konqueror/servicemenus
 
 KDE4: Copy download_subtitle.desktop to ~/.kde/share/kde4/services
 
-KDE5: Same as KDE4
+KDE5: Copy download_subtitle.desktop to ~/.local/share/kservices5/ServiceMenu
 
 Copy download_subtitle.py to some dir of your PATH.
-
-In case the paths are wrong for your KDE configuration try the tool 
-`kde4-config` to query the correct paths for your system.
-
-For the lazy there are two scripts to install and uninstall the needed files in
-the right folder for KDE4 and KDE5. The scripts will use sudo to allow the copy
-of the python script into a system folder included in PATH.
 
 ## Dependencies ##
 
@@ -53,6 +46,11 @@ If you have KDE installed all the required tools are usually already installed:
 
 ## Changelog ##
 
+- 2017-04-24: specified python2 as interpreter, fixed --geometry parameter not
+    supported by current kdialog, added a progress bar for the login phase,
+    fixed info about installation paths in the readme and removed the
+    installation and uninstallation script because they where not reliable
+    for KDE5.
 - 2015-08-13: fix detection of missing dependency. The script is working fine
     in KDE5.
 - 2015-03-12: add a real user agent authorized by [OpenSubtitles.org][0] so the
